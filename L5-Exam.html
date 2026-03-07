@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>North Castle - Level 1 Placement Test</title>
+    <!-- Use Outfit font for a premium, modern feel -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Premium Glassmorphism Theme Variables */
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --glass-shadow: rgba(0, 0, 0, 0.3);
+
+            /* Status Colors */
+            --accent: #ffd700;
+            --success: #00e676;
+            /* Used sparingly now */
+            --danger: #ff1744;
+            /* Used for timer warning */
+            --neutral: #4fc3f7;
+            /* For selected state */
+
+            /* Text Colors */
+            --text-main: #ffffff;
+            --text-muted: rgba(255, 255, 255, 0.75);
+
+            /* Background Gradients */
+            --bg-grad-1: #2a0845;
+            --bg-grad-2: #6441A5;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Outfit', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2));
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .header {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-top: 10px;
+        }
+
+        .header-title h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+            margin-bottom: 5px;
+        }
+
+        .header-title p {
+            font-size: 1.1rem;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .timer-badge {
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid var(--accent);
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 1.4rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: color 0.3s;
+        }
+
+        .timer-badge.warning {
+            color: var(--danger);
+            border-color: var(--danger);
+            animation: pulse-danger 1s infinite;
+        }
+
+        .progress-container {
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 30px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: var(--accent);
+            border-radius: 20px;
+            transition: width 0.3s ease;
+        }
+
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 40px;
+            width: 100%;
+            max-width: 800px;
+            box-shadow: 0 8px 32px 0 var(--glass-shadow);
+            position: relative;
+            text-align: center;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .question-title {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        .instruction {
+            font-size: 1.3rem;
+            color: var(--text-main);
+            margin-bottom: 30px;
+            line-height: 1.5;
+            font-weight: 600;
+        }
+
+        /* Generic Buttons */
+        .primary-btn {
+            background: linear-gradient(135deg, #ffeb3b, #fbc02d);
+            color: #333;
+            border: none;
+            padding: 15px 50px;
+            font-size: 1.4rem;
+            font-weight: 800;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(255, 235, 59, 0.4);
+            transition: all 0.3s ease;
+            margin: 0 auto;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 12px 30px rgba(255, 235, 59, 0.6);
+        }
+
+        .play-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 2px solid var(--accent);
+            padding: 12px 30px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .play-btn:hover {
+            background: var(--accent);
+            color: #333;
+        }
+
+        /* Options Grid (No more correct/incorrect colors immediately) */
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .option-card {
+            background: rgba(0, 0, 0, 0.3);
+            border: 3px solid transparent;
+            border-radius: 20px;
+            padding: 25px 10px;
+            font-size: 4rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .option-card.text-option {
+            font-size: 1.4rem;
+            font-weight: 600;
+            padding: 20px 15px;
+        }
+
+        .option-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-5px);
+        }
+
+        /* Selected State (Neutral) */
+        .option-card.selected {
+            background: rgba(79, 195, 247, 0.2);
+            border-color: var(--neutral);
+            box-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
+            transform: scale(1.05);
+        }
+
+        /* Story Builder Words */
+        .words-bank {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .word-chip {
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid var(--glass-border);
+            color: var(--text-main);
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.2s;
+        }
+
+        .word-chip:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--neutral);
+        }
+
+        .word-chip.used {
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .answer-slot {
+            margin: 0 auto 30px;
+            padding: 20px;
+            border: 3px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            min-height: 90px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .answer-slot .word-chip {
+            background: var(--neutral);
+            color: #000;
+            border: none;
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Reading / Fill */
+        .prompt-text {
+            font-size: 1.6rem;
+            font-weight: 600;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border-left: 5px solid var(--accent);
+            text-align: left;
+        }
+
+        .fill-blank-text {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+
+        /* Vocal Challenge */
+        .mic-btn {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.5);
+            border: 3px solid var(--neutral);
+            color: white;
+            font-size: 3rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mic-btn.listening {
+            background: var(--danger);
+            border-color: var(--danger);
+            animation: pulse-danger 1.5s infinite;
+        }
+
+        .speech-feedback {
+            font-size: 1.4rem;
+            margin-top: 15px;
+            min-height: 35px;
+            font-style: italic;
+            color: var(--neutral);
+        }
+
+        @keyframes pulse-danger {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 23, 68, 0.5);
+            }
+
+            40% {
+                box-shadow: 0 0 0 20px rgba(255, 23, 68, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 23, 68, 0);
+            }
+        }
+
+        /* Video Section */
+        .video-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto 20px auto;
+            border-radius: 15px;
+            overflow: hidden;
+            border: 3px solid var(--accent);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .video-container iframe,
+        .video-container video {
+            width: 100%;
+            height: 315px;
+            border: none;
+            display: block;
+        }
+
+        /* Navigation Buttons */
+        .nav-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: 2px solid var(--text-main);
+            color: var(--text-main);
+            padding: 12px 30px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .nav-btn.next {
+            background: var(--neutral);
+            border-color: var(--neutral);
+            color: #000;
+        }
+
+        .nav-btn.next:hover:not(:disabled) {
+            background: #fff;
+            border-color: #fff;
+        }
+
+        .nav-btn.submit {
+            background: var(--success);
+            border-color: var(--success);
+            color: #000;
+        }
+
+        /* Form Styles */
+        .intro-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 400px;
+            margin: 0 auto 30px auto;
+            text-align: left;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .form-group label {
+            font-size: 1.1rem;
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        .form-control {
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid var(--glass-border);
+            color: var(--text-main);
+            padding: 12px 15px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-family: 'Outfit', sans-serif;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .form-control option {
+            background: #2a0845;
+            color: white;
+        }
+
+        /* Results Screen */
+        .results-icon {
+            font-size: 6rem;
+            margin: 20px 0;
+            display: inline-block;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .results-msg {
+            font-size: 2.2rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        .results-submsg {
+            font-size: 1.4rem;
+            color: var(--text-muted);
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .glass-panel {
+                padding: 20px 15px;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .header h1 {
+                font-size: 2.2rem !important;
+            }
+
+            .options-grid {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+                gap: 10px;
+            }
+
+            .option-card {
+                font-size: 2.5rem;
+                padding: 15px 5px;
+            }
+
+            .option-card.text-option {
+                font-size: 1.1rem;
+                padding: 15px;
+            }
+
+            .word-chip {
+                padding: 8px 15px;
+                font-size: 1rem;
+            }
+
+            .nav-controls {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .nav-btn {
+                width: 100%;
+                font-size: 1.1rem;
+            }
+
+            .prompt-text {
+                font-size: 1.2rem;
+                padding: 15px;
+            }
+
+            .instruction {
+                font-size: 1.1rem;
+            }
+
+            .fill-blank-text {
+                font-size: 1.4rem;
+            }
+
+            .video-container {
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <div class="header-title">
+            <div
+                style="font-size: 1.2rem; letter-spacing: 4px; color: var(--accent); text-transform: uppercase; font-weight: 800; margin-bottom: -5px;">
+                North Castle</div>
+            <h1 style="font-size: 2.8rem; margin: 0; line-height: 1.2;">Street English</h1>
+            <p>Placement Test - Level Five</p>
+        </div>
+        <div class="timer-badge hidden" id="timerBadge">
+            ⏱️ <span id="timeDisplay">50:00</span>
+        </div>
+    </div>
+
+    <div class="progress-container hidden" id="progressBarContainer">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+            <span style="font-weight: bold; color: var(--accent);">Question <span id="currentQNum">1</span>/30</span>
+        </div>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+    </div>
+
+    <!-- Intro Screen -->
+    <div class="glass-panel fade-in" id="introScreen">
+        <h2 style="font-size: 2.5rem; margin-bottom: 20px;">Welcome to the Placement Test</h2>
+        <ul
+            style="text-align: left; font-size: 1.3rem; line-height: 1.8; margin: 0 auto 20px; max-width: 600px; color: var(--text-muted);">
+            <li>⏱️ You have <b>45 minutes</b> to complete 30 questions.</li>
+            <li>🔀 Questions are completely randomized.</li>
+            <li>🔊 Make sure your volume is up for listening.</li>
+            <li>🎤 Allow microphone access for speaking.</li>
+        </ul>
+
+        <div class="intro-form">
+            <div class="form-group">
+                <label>Student Name</label>
+                <input type="text" id="studentName" class="form-control" placeholder="Enter student name..." required>
+            </div>
+            <div class="form-group">
+                <label>Trainer Name</label>
+                <input type="text" id="trainerName" class="form-control" placeholder="Enter trainer name..." required>
+            </div>
+            <div class="form-group">
+                <label>Branch</label>
+                <select id="branchSelect" class="form-control" required>
+                    <option value="" disabled selected>Select Branch...</option>
+                    <option value="kom hamada">Kom Hamada</option>
+                    <option value="itay al-barud">Itay Al-Barud</option>
+                    <option value="Dilinjat">Dilinjat</option>
+                    <option value="kar Al-zayat">Kafr Al-Zayat</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Trainer Code</label>
+                <select id="trainerCode" class="form-control" required>
+                    <option value="" disabled selected>Select Code...</option>
+                    <option value="8254">8254</option>
+                    <option value="3917">3917</option>
+                    <option value="6042">6042</option>
+                    <option value="1589">1589</option>
+                    <option value="7431">7431</option>
+                    <option value="2965">2965</option>
+                    <option value="5178">5178</option>
+                    <option value="9306">9306</option>
+                    <option value="4823">4823</option>
+                    <option value="7190">7190</option>
+                </select>
+            </div>
+        </div>
+        <p id="formError" style="color: var(--danger); font-weight: bold; margin-bottom: 15px; display: none;">Please
+            fill all fields to start.</p>
+        <button class="primary-btn" onclick="startTest()">
+            Start Assessment
+        </button>
+    </div>
+
+    <!-- Main Question Container -->
+    <div class="glass-panel hidden" id="questionContainer">
+        <div id="questionContent"></div>
+
+        <div class="nav-controls">
+            <button class="nav-btn" id="prevBtn" onclick="prevQuestion()">⬅️ Previous</button>
+            <button class="nav-btn next" id="nextBtn" onclick="nextQuestion()">Next ➡️</button>
+        </div>
+    </div>
+
+    <!-- Results Screen -->
+    <div class="glass-panel hidden" id="resultsScreen">
+        <div class="results-icon">📬</div>
+        <div class="results-msg">شكراً لك! تم انتهاء اختبار المستوى الخامس</div>
+        <p class="results-submsg">
+            تم حفظ إجاباتك بنجاح. برجاء التواصل مع الإدارة لمعرفة نتيجتك.
+        </p>
+        <button class="primary-btn" style="margin-top: 40px;" onclick="location.reload()">Return Home</button>
+    </div>
+
+    <script>
+        // --- DATA DEFINITION: 30 Questions (Level 5) ---
+        const rawTestData = [
+            // 1. Video Comprehension (5 Questions)
+            { type: 'video', url: 'https://www.youtube.com/embed/bji2Z48R5d4', question: 'What specific type of marine life are the dolphins interacting with in the video?', options: ['A pufferfish', 'A jellyfish', 'A sea turtle', 'A stingray'], correct: 'A pufferfish', category: 'Video Comprehension' },
+            { type: 'video', url: 'https://www.youtube.com/embed/bji2Z48R5d4', question: 'How do the dolphins typically handle the creature?', options: ['They gently pass it around to each other.', 'They immediately eat it.', 'They aggressively attack it.', 'They bury it in the sand.'], correct: 'They gently pass it around to each other.', category: 'Video Comprehension' },
+            { type: 'video', url: 'https://www.youtube.com/embed/bji2Z48R5d4', question: 'What is the unusual effect the creature\'s defensive toxin has on the dolphins?', options: ['It puts them in a trance-like state.', 'It makes them swim extremely fast.', 'It causes them to fall asleep immediately.', 'It turns their skin a bright blue color.'], correct: 'It puts them in a trance-like state.', category: 'Video Comprehension' },
+            { type: 'video', url: 'https://www.youtube.com/embed/bji2Z48R5d4', question: 'What unique behavior do the dolphins exhibit at the water\'s surface after interacting with the creature?', options: ['They float motionlessly just below the surface, staring at their reflections.', 'They leap high into the air repeatedly.', 'They slap their tails aggressively on the water.', 'They blow complex bubble rings.'], correct: 'They float motionlessly just below the surface, staring at their reflections.', category: 'Video Comprehension' },
+            { type: 'video', url: 'https://www.youtube.com/embed/bji2Z48R5d4', question: 'What does the creature do after the dolphins finish interacting with it?', options: ['It swims away completely unharmed.', 'It remains floating on the surface forever.', 'It sinks slowly to the ocean floor.', 'It inflates itself permanently.'], correct: 'It swims away completely unharmed.', category: 'Video Comprehension' },
+
+            // 2. Audio (5) - Simpler Sentences
+            { type: 'audio', word: 'I use my computer every day to send emails for work.', options: ['💻✉️🏢', '🚜🌾🐄', '🎸🎤🎧', '🍔🍟🥤'], correct: '💻✉️🏢', category: 'Listening' },
+            { type: 'audio', word: 'The tall building has many windows and offices inside.', options: ['🏗️🏙️�', '🚀🌌🛸', '🚢⚓🌊', '🚑🏥🩺'], correct: '🏗️🏙️�', category: 'Listening' },
+            { type: 'audio', word: 'She likes to read books about history and science.', options: ['📚��', '⚽🏟️🏆', '🎨🖌️🖼️', '🚗🛣️⛽'], correct: '📚��', category: 'Listening' },
+            { type: 'audio', word: 'The reporter asked the famous actor many questions.', options: ['🎙️📰�', '👨‍🍳🔪🧅', '🧑‍🚒🚒🔥', '🧑‍🚀🌔🛰️'], correct: '🎙️📰�', category: 'Listening' },
+            { type: 'audio', word: 'I need to check my bank account before buying a car.', options: ['🏦��', '🎭🎫🍿', '🎳🎳👟', '🎪🤡🎈'], correct: '🏦��', category: 'Listening' },
+
+            // 3. Grammar Order (5) - Advanced phrase chunks
+            { type: 'order', words: ['Not only did', 'the strategy fail,', 'but it also', 'exacerbated the problem.'], correctOrder: ['Not only did', 'the strategy fail,', 'but it also', 'exacerbated the problem.'], category: 'Grammar' },
+            { type: 'order', words: ['By the time', 'the rescue team', 'arrived on scene,', 'the storm had passed.'], correctOrder: ['By the time', 'the rescue team', 'arrived on scene,', 'the storm had passed.'], category: 'Grammar' },
+            { type: 'order', words: ['Seldom have I', 'encountered such a', 'profoundly moving', 'piece of literature.'], correctOrder: ['Seldom have I', 'encountered such a', 'profoundly moving', 'piece of literature.'], category: 'Grammar' },
+            { type: 'order', words: ['Had she known', 'about the potential risks,', 'she would have', 'reconsidered her decision.'], correctOrder: ['Had she known', 'about the potential risks,', 'she would have', 'reconsidered her decision.'], category: 'Grammar' },
+            { type: 'order', words: ['It is crucial', 'that every employee', 'be made aware of', 'the new safety protocols.'], correctOrder: ['It is crucial', 'that every employee', 'be made aware of', 'the new safety protocols.'], category: 'Grammar' },
+
+            // 4. Response (5) - Highly nuanced / idiomatic context
+            { type: 'response', prompt: '"I\'m afraid I\'m completely swamped with paperwork at the moment and can\'t take on any additional responsibilities."', options: ['I completely understand, let\'s circle back when your schedule opens up.', 'Yes, swamps are very wet environments.', 'Paperwork is very heavy.'], correct: 'I completely understand, let\'s circle back when your schedule opens up.', category: 'Conversation' },
+            { type: 'response', prompt: '"To put it mildly, the board\'s reaction to the quarterly earnings report was less than enthusiastic."', options: ['That\'s unfortunate; it sounds like they were quite disappointed.', 'Mild weather is my favorite kind of weather.', 'Earnings are always very enthusiastic to see.'], correct: 'That\'s unfortunate; it sounds like they were quite disappointed.', category: 'Conversation' },
+            { type: 'response', prompt: '"We really need to hit the ground running on this project if we want to meet the tight deadline."', options: ['Agreed, let\'s bypass the formalities and get straight to execution.', 'The ground is very hard, we shouldn\'t hit it.', 'Running is great cardiovascular exercise.'], correct: 'Agreed, let\'s bypass the formalities and get straight to execution.', category: 'Conversation' },
+            { type: 'response', prompt: '"If it\'s all the same to you, I\'d rather tackle this issue first thing in the morning with a fresh perspective."', options: ['That works for me; we\'ll regroup bright and early tomorrow.', 'It is not the same, they are different.', 'Tackling is a foul in many sports.'], correct: 'That works for me; we\'ll regroup bright and early tomorrow.', category: 'Conversation' },
+            { type: 'response', prompt: '"I don\'t mean to be presumptuous, but perhaps a radically different approach might yield better results here?"', options: ['I\'m definitely open to suggestions; what did you have in mind?', 'You are being very presumptuous right now.', 'Yielding is important when driving a car.'], correct: 'I\'m definitely open to suggestions; what did you have in mind?', category: 'Conversation' },
+
+            // 5. Speaking (5) - Complex multi-clause & vocabulary
+            { type: 'speaking', phrase: 'Consequently the board of directors unanimously voted to approve the merger', category: 'Speaking' },
+            { type: 'speaking', phrase: 'It is highly improbable that they will successfully mitigate the environmental damage', category: 'Speaking' },
+            { type: 'speaking', phrase: 'Furthermore this initiative will undoubtedly foster greater collaboration between our respective departments', category: 'Speaking' },
+            { type: 'speaking', phrase: 'We must meticulously analyze every variable before drawing any definitive conclusions', category: 'Speaking' },
+            { type: 'speaking', phrase: 'Despite his initial reservations he eventually became an enthusiastic advocate for the new policy', category: 'Speaking' },
+
+            // 6. Reading Quick Comprehension (Reduced to 1) & More Listening (4)
+            { type: 'comprehension', prompt: 'The transition to renewable energy sources is no longer merely an idealistic aspiration; it has become an urgent economic imperative. While initial infrastructural investments are undeniably substantial, the long-term stabilization of energy costs, coupled with the mitigation of catastrophic climate-related damages, overwhelmingly justifies the transition. Critics who focus solely on short-term expenditures fail to account for the hidden, cascading costs associated with maintaining reliance on increasingly volatile fossil fuel markets.', question: 'According to the passage, why do critics of renewable energy often have a flawed argument?', options: ['They ignore the hidden, long-term costs of relying on fossil fuels.', 'They overestimate the amount of pollution caused by burning coal.', 'They believe that building solar panels is environmentally destructive.'], correct: 'They ignore the hidden, long-term costs of relying on fossil fuels.', category: 'Reading' },
+            { type: 'audio', word: 'The man packed his heavy bag for a long trip on an airplane.', options: ['🧳✈️😫', '🛳️🌊😊', '🚗🏔️😎', '🚲🛣️🥵'], correct: '🧳✈️😫', category: 'Listening' },
+            { type: 'audio', word: 'The artist painted a beautiful picture and put a light on it.', options: ['🖼️🔦🖌️', '🍔🍟👨‍🍳', '🧱🏗️👷‍♂️', '💻🖱️👨‍💻'], correct: '🖼️🔦🖌️', category: 'Listening' },
+            { type: 'audio', word: 'It is raining outside, but I am drinking hot coffee inside.', options: ['☕🌧️🛋️', '🍻☀️🏖️', '🍦❄️🏂', '🍿🌙🎬'], correct: '☕🌧️🛋️', category: 'Listening' },
+            { type: 'audio', word: 'The scientist spent all day looking at green plants and flowers.', options: ['🌸🌿🔬', '🦁🐘🦓', '🐠🦈🌊', '🦅🦉🌲'], correct: '🌸🌿🔬', category: 'Listening' }
+        ];
+
+        // --- APP STATE ---
+        let testData = [];    // Will hold shuffled questions and pre-shuffled options
+        let userAnswers = []; // Holds user selections index-matched to testData
+        let currentIndex = 0;
+        let timeRemaining = 50 * 60; // 50 Minutes in seconds
+        let timerInterval = null;
+        let utterance = null;
+        let recognition = null;
+
+        // Student Data
+        let studentSessionData = {
+            studentName: '',
+            trainerName: '',
+            branch: '',
+            trainerCode: ''
+        };
+
+        // --- INIT RECOGNITION ---
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+            const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognition = new SpeechRec();
+            recognition.lang = 'en-US';
+            recognition.interimResults = false;
+            recognition.maxAlternatives = 1;
+        }
+
+        // --- CORE FUNCTIONS ---
+        function shuffle(array) {
+            let currentIndex = array.length, randomIndex;
+            while (currentIndex != 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+                [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+            }
+            return array;
+        }
+
+        function prepareTestData() {
+            // First, process options inside questions so they don't re-shuffle on BACK nav
+            let processed = rawTestData.map(q => {
+                let newQ = { ...q };
+                if (newQ.options) newQ.options = shuffle([...newQ.options]);
+                if (newQ.words) newQ.words = shuffle([...newQ.words]);
+                return newQ;
+            });
+            // Then fully shuffle the 30 questions
+            testData = shuffle(processed);
+            userAnswers = new Array(testData.length).fill(null);
+        }
+
+        function startTest() {
+            // Validate Form
+            const sName = document.getElementById('studentName').value.trim();
+            const tName = document.getElementById('trainerName').value.trim();
+            const branch = document.getElementById('branchSelect').value;
+            const code = document.getElementById('trainerCode').value;
+
+            if (!sName || !tName || !branch || !code) {
+                document.getElementById('formError').style.display = 'block';
+                return;
+            }
+
+            // Save details
+            studentSessionData = {
+                studentName: sName,
+                trainerName: tName,
+                branch: branch,
+                trainerCode: code
+            };
+
+            prepareTestData();
+            document.getElementById('introScreen').classList.add('hidden');
+            document.getElementById('timerBadge').classList.remove('hidden');
+            document.getElementById('progressBarContainer').classList.remove('hidden');
+            document.getElementById('questionContainer').classList.remove('hidden');
+
+            // Wake up speech API silently for iOS/mobile compatibility
+            window.speechSynthesis.speak(new SpeechSynthesisUtterance(""));
+
+            startTimer();
+            renderQuestion();
+        }
+
+        function startTimer() {
+            const display = document.getElementById('timeDisplay');
+            const badge = document.getElementById('timerBadge');
+
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                let m = Math.floor(timeRemaining / 60);
+                let s = timeRemaining % 60;
+                display.innerText = `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+
+                if (timeRemaining <= 60) {
+                    badge.classList.add('warning');
+                }
+
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    submitTest();
+                }
+            }, 1000);
+        }
+
+        function renderQuestion() {
+            const content = document.getElementById('questionContent');
+            const q = testData[currentIndex];
+
+            // Update UI trackers
+            document.getElementById('currentQNum').innerText = currentIndex + 1;
+            document.getElementById('progressFill').style.width = `${((currentIndex) / testData.length) * 100}%`;
+
+            // Manage Navigation Button States
+            document.getElementById('prevBtn').disabled = currentIndex === 0;
+            const nextBtn = document.getElementById('nextBtn');
+            if (currentIndex === testData.length - 1) {
+                nextBtn.innerText = "Submit Test ✓";
+                nextBtn.className = "nav-btn submit";
+            } else {
+                nextBtn.innerText = "Next ➡️";
+                nextBtn.className = "nav-btn next";
+            }
+
+            // Animate transition
+            content.classList.remove('fade-in');
+            void content.offsetWidth;
+            content.classList.add('fade-in');
+
+            content.innerHTML = `
+                <div style="font-size: 0.9rem; color: var(--accent); margin-bottom: 5px; font-weight: bold; text-transform: uppercase;">Category: ${q.category}</div>
+                <h2 class="question-title">Question ${currentIndex + 1}</h2>
+                <hr style="border:0; border-top:1px solid rgba(255,255,255,0.2); margin: 15px 0 25px;">
+            `;
+
+            switch (q.type) {
+                case 'video': renderVideoQuestion(q, content); break;
+                case 'audio': renderAudioQuestion(q, content); break;
+                case 'order': renderOrderQuestion(q, content); break;
+                case 'response': renderResponseQuestion(q, content); break;
+                case 'listenFill': renderListenFillQuestion(q, content); break;
+                case 'speaking': renderSpeakingQuestion(q, content); break;
+                case 'comprehension': renderComprehensionQuestion(q, content); break;
+            }
+        }
+
+        function prevQuestion() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                renderQuestion();
+            }
+        }
+
+        function nextQuestion() {
+            if (currentIndex < testData.length - 1) {
+                currentIndex++;
+                renderQuestion();
+            } else {
+                submitTest();
+            }
+        }
+
+        // --- SHARED OPTION SELECTION ---
+        function handleOptionSelect(selectedValue) {
+            userAnswers[currentIndex] = selectedValue;
+            // Update Visuals
+            const cards = document.querySelectorAll('.option-card');
+            cards.forEach(c => {
+                if (c.dataset.val === selectedValue) {
+                    c.classList.add('selected');
+                } else {
+                    c.classList.remove('selected');
+                }
+            });
+            triggerHapticLight();
+        }
+
+        function generateOptionsGrid(options, isText = false) {
+            const grid = document.createElement('div');
+            grid.className = 'options-grid';
+            if (isText) grid.style.gridTemplateColumns = '1fr';
+
+            const currentAnswer = userAnswers[currentIndex];
+
+            options.forEach(opt => {
+                const card = document.createElement('div');
+                card.className = `option-card ${isText ? 'text-option' : ''} ${currentAnswer === opt ? 'selected' : ''}`;
+                card.innerText = opt;
+                card.dataset.val = opt; // Store value for querying
+                card.onclick = () => handleOptionSelect(opt);
+                grid.appendChild(card);
+            });
+            return grid;
+        }
+
+        // --- SECTION RENDERERS ---
+
+        function renderVideoQuestion(q, content) {
+            content.innerHTML += `
+                <p class="instruction">Watch the video carefully and answer the question below.</p>
+                <div class="video-container">
+                    <iframe src="${q.url}" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div style="font-size: 1.6rem; margin-bottom: 20px; font-weight: bold;">${q.question}</div>
+            `;
+            content.appendChild(generateOptionsGrid(q.options, true));
+        }
+
+        function renderAudioQuestion(q, content) {
+            content.innerHTML += `<p class="instruction">Listen closely and choose the matching image.</p>`;
+            const btn = document.createElement('button');
+            btn.className = 'play-btn';
+            btn.innerHTML = '🔊 Play Audio';
+            btn.onclick = () => playWord(q.word, btn);
+            content.appendChild(btn);
+            content.appendChild(generateOptionsGrid(q.options, false));
+        }
+
+        function renderListenFillQuestion(q, content) {
+            content.innerHTML += `<p class="instruction">Listen to the sentence and select the missing word.</p>`;
+
+            const btn = document.createElement('button');
+            btn.className = 'play-btn';
+            btn.innerHTML = '🔊 Play Sentence';
+            btn.onclick = () => playWord(q.sentence.replace('______', q.word), btn);
+            content.appendChild(btn);
+
+            const fillTextDiv = document.createElement('div');
+            fillTextDiv.className = 'fill-blank-text';
+            fillTextDiv.innerText = q.sentence;
+            content.appendChild(fillTextDiv);
+
+            content.appendChild(generateOptionsGrid(q.options, true));
+        }
+
+        function renderResponseQuestion(q, content) {
+            content.innerHTML += `
+                <p class="instruction">Choose the most natural reply.</p>
+                <div class="prompt-text">💬 ${q.prompt}</div>
+            `;
+            content.appendChild(generateOptionsGrid(q.options, true));
+        }
+
+        function renderComprehensionQuestion(q, content) {
+            content.innerHTML += `
+                <p class="instruction">Read the short story and answer the question.</p>
+                <div class="prompt-text" style="font-size: 1.4rem; font-style: italic;">${q.prompt}</div>
+                <div style="font-size: 1.6rem; margin-bottom: 20px; font-weight: bold;">${q.question}</div>
+            `;
+            content.appendChild(generateOptionsGrid(q.options, true));
+        }
+
+        function renderOrderQuestion(q, content) {
+            // Retrieve saved array or initialize empty
+            let answerArray = userAnswers[currentIndex] || [];
+
+            content.innerHTML += `
+                <p class="instruction">Arrange the words to form a correct English sentence.</p>
+                <div style="text-align: center; margin-bottom: 20px; font-size: 1.1rem; color: var(--accent); font-weight: bold;">
+                    💡 Hint: Look for the Capital Letter to start, and the Period (.) to end!
+                </div>
+            `;
+
+            const answerSlot = document.createElement('div');
+            answerSlot.className = 'answer-slot';
+
+            const wordsContainer = document.createElement('div');
+            wordsContainer.className = 'words-bank';
+
+            const renderChips = () => {
+                answerSlot.innerHTML = '';
+                wordsContainer.innerHTML = '';
+                userAnswers[currentIndex] = answerArray;
+
+                // Render Bank
+                q.words.forEach(word => {
+                    const chip = document.createElement('div');
+                    chip.className = 'word-chip';
+                    chip.innerText = word;
+                    // If word is in answerArray, hide it from bank
+                    const isUsed = answerArray.includes(word);
+                    if (isUsed) chip.classList.add('used');
+                    else {
+                        chip.onclick = () => {
+                            answerArray.push(word);
+                            triggerHapticLight();
+                            renderChips();
+                        };
+                    }
+                    wordsContainer.appendChild(chip);
+                });
+
+                // Render Answer Slot
+                answerArray.forEach((word, idx) => {
+                    const chip = document.createElement('div');
+                    chip.className = 'word-chip';
+                    chip.innerText = word;
+                    chip.onclick = () => {
+                        answerArray.splice(idx, 1);
+                        triggerHapticLight();
+                        renderChips();
+                    };
+                    answerSlot.appendChild(chip);
+                });
+            };
+
+            content.appendChild(answerSlot);
+            content.appendChild(wordsContainer);
+
+            const clearBtn = document.createElement('button');
+            clearBtn.className = 'nav-btn';
+            clearBtn.style.margin = "0 auto 30px";
+            clearBtn.style.display = "block";
+            clearBtn.innerText = '↺ Clear Selection';
+            clearBtn.onclick = () => { answerArray = []; renderChips(); };
+            content.appendChild(clearBtn);
+
+            renderChips(); // Initial render
+        }
+
+        function renderSpeakingQuestion(q, content) {
+            content.innerHTML += `
+                <p class="instruction">Click the microphone to record yourself saying:</p>
+                <div class="prompt-text" style="text-align: center; font-size: 2.5rem; background:rgba(255,255,255,0.1)">"${q.phrase}"</div>
+            `;
+
+            if (!recognition) {
+                content.innerHTML += `<p style="color:var(--danger)">Voice recognition is not supported in this browser. Please skip.</p>`;
+                return;
+            }
+
+            const micBtn = document.createElement('button');
+            micBtn.className = 'mic-btn';
+            micBtn.innerHTML = '🎤';
+
+            const feedback = document.createElement('div');
+            feedback.className = 'speech-feedback';
+            feedback.style.textAlign = "center";
+
+            // If already answered, show it
+            if (userAnswers[currentIndex]) {
+                feedback.innerText = `Recorded Answer: "${userAnswers[currentIndex]}"`;
+                micBtn.style.borderColor = "var(--success)";
+            }
+
+            let isRecording = false;
+
+            const retryBtn = document.createElement('button');
+            retryBtn.className = 'nav-btn';
+            retryBtn.style.marginTop = "20px";
+            retryBtn.innerText = '↻ Try Again';
+            retryBtn.style.display = userAnswers[currentIndex] ? "inline-block" : "none";
+            retryBtn.onclick = () => {
+                userAnswers[currentIndex] = null;
+                feedback.innerText = "";
+                micBtn.style.borderColor = "var(--glass-border)";
+                retryBtn.style.display = "none";
+            };
+
+            micBtn.onclick = () => {
+                if (isRecording) {
+                    recognition.stop();
+                    return;
+                }
+                try {
+                    recognition.start();
+                    isRecording = true;
+                    micBtn.classList.add('listening');
+                    feedback.innerText = "Listening... Speak now.";
+                    feedback.style.color = "var(--text-main)";
+                    triggerHapticLight();
+                } catch (e) { }
+            };
+
+            recognition.onresult = (event) => {
+                isRecording = false;
+                micBtn.classList.remove('listening');
+                const transcript = event.results[0][0].transcript.toLowerCase().trim();
+
+                // Formally save it, no right/wrong feedback
+                userAnswers[currentIndex] = transcript;
+                feedback.innerText = `Recorded Answer: "${transcript}"`;
+                feedback.style.color = "var(--neutral)";
+                micBtn.style.borderColor = "var(--success)";
+                retryBtn.style.display = "inline-block";
+                triggerHapticLight();
+            };
+
+            recognition.onerror = () => {
+                isRecording = false;
+                micBtn.classList.remove('listening');
+                feedback.innerText = `Error recording. Please try again.`;
+                feedback.style.color = "var(--danger)";
+            };
+
+            content.appendChild(micBtn);
+            content.appendChild(feedback);
+            content.appendChild(retryBtn);
+        }
+
+        function playWord(word, btnElement) {
+            window.speechSynthesis.cancel();
+
+            // Timeout prevents cancel() from blocking speak() in some browsers
+            setTimeout(() => {
+                utterance = new SpeechSynthesisUtterance(word);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.6;
+
+                if (btnElement) {
+                    btnElement.classList.add('playing');
+                    utterance.onend = () => btnElement.classList.remove('playing');
+                    utterance.onerror = () => btnElement.classList.remove('playing');
+                }
+
+                window.speechSynthesis.speak(utterance);
+            }, 50);
+        }
+
+        function triggerHapticLight() {
+            if (navigator.vibrate) navigator.vibrate(20);
+        }
+
+        function submitTest() {
+            clearInterval(timerInterval);
+            document.getElementById('questionContainer').classList.add('hidden');
+            document.getElementById('progressBarContainer').classList.add('hidden');
+            document.getElementById('timerBadge').classList.add('hidden');
+
+            const resultsScreen = document.getElementById('resultsScreen');
+            resultsScreen.classList.remove('hidden');
+            resultsScreen.classList.add('fade-in');
+
+            // Save to LocalStorage Database
+            let finalScore = 0;
+            let incorrectDetails = [];
+
+            userAnswers.forEach((ans, idx) => {
+                const q = testData[idx];
+                let isCorrect = false;
+                let expectedAns = "";
+
+                if (q.type === 'order') {
+                    expectedAns = q.correctOrder.join(' ');
+                    if (ans && Array.isArray(ans) && ans.join(' ') === expectedAns) {
+                        isCorrect = true;
+                    }
+                } else if (q.type === 'speaking') {
+                    expectedAns = q.phrase;
+                    if (ans) {
+                        let cleanAns = ans.replace(/[.,?!']/g, '').toLowerCase();
+                        let target = expectedAns.replace(/[.,?!']/g, '').toLowerCase();
+                        if (cleanAns.includes(target) || target.includes(cleanAns)) {
+                            isCorrect = true;
+                        }
+                    }
+                } else {
+                    expectedAns = q.correct;
+                    if (ans === expectedAns) {
+                        isCorrect = true;
+                    }
+                }
+
+                if (isCorrect) {
+                    finalScore++;
+                } else {
+                    // Record mistake
+                    let questionText = q.prompt || q.sentence || q.instruction || q.word || q.phrase || "Audio Question";
+                    if (q.type === 'comprehension') questionText = q.question;
+
+                    let givenAns = ans;
+                    if (Array.isArray(ans)) givenAns = ans.join(' ');
+                    if (!givenAns) givenAns = "No Answer / Skipped";
+
+                    incorrectDetails.push({
+                        category: q.category,
+                        question: questionText,
+                        userAnswer: givenAns,
+                        correctAnswer: expectedAns
+                    });
+                }
+            });
+
+            const currentResults = JSON.parse(localStorage.getItem('north_castle_l5_results')) || [];
+
+            const newRecord = {
+                id: Date.now(),
+                timestamp: new Date().toLocaleString(),
+                studentName: studentSessionData.studentName,
+                trainerName: studentSessionData.trainerName,
+                branch: studentSessionData.branch,
+                trainerCode: studentSessionData.trainerCode,
+                score: finalScore,
+                total: testData.length,
+                mistakes: incorrectDetails
+            };
+
+            currentResults.push(newRecord);
+            localStorage.setItem('north_castle_l5_results', JSON.stringify(currentResults));
+
+            console.log("Passed! Info saved to localStorage.");
+        }
+    </script>
+</body>
+
+</html>
