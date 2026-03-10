@@ -593,7 +593,16 @@
             }
         }
     </style>
+
+    <!-- Supabase Initialization -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const supabaseUrl = 'https://wukzubjnsoulvjeotfzy.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind1a3p1Ympuc291bHZqZW90Znp5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY0NDgzNzYsImV4cCI6MjA4MjAyNDM3Nn0.vCKQSVn5i0pvK3cdbyJlIRzqWlmPt_kjQsVBxskZ3X0';
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+    </script>
 </head>
+
 
 <body>
 
@@ -1161,7 +1170,7 @@
             if (navigator.vibrate) navigator.vibrate(20);
         }
 
-        function submitTest() {
+        async function submitTest() {
             clearInterval(timerInterval);
             document.getElementById('questionContainer').classList.add('hidden');
             document.getElementById('progressBarContainer').classList.add('hidden');
@@ -1221,10 +1230,7 @@
                 }
             });
 
-            const currentResults = JSON.parse(localStorage.getItem('north_castle_l5_results')) || [];
-
             const newRecord = {
-                id: Date.now(),
                 timestamp: new Date().toLocaleString(),
                 studentName: studentSessionData.studentName,
                 trainerName: studentSessionData.trainerName,
@@ -1235,10 +1241,18 @@
                 mistakes: incorrectDetails
             };
 
-            currentResults.push(newRecord);
-            localStorage.setItem('north_castle_l5_results', JSON.stringify(currentResults));
-
-            console.log("Passed! Info saved to localStorage.");
+            try {
+                const { data, error } = await supabase.from('l5_results').insert([newRecord]);
+                if (error) {
+                    console.error('Error saving to Supabase:', error);
+                    alert('Error saving results. Please check your connection or contact administration.');
+                } else {
+                    console.log("Passed! Info saved to Supabase.");
+                }
+            } catch (err) {
+                console.error('Network error:', err);
+                alert('Network error while saving results!');
+            }
         }
     </script>
 </body>
