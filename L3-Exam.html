@@ -594,12 +594,12 @@
         }
     </style>
 
-    <!-- Supabase Initialization -->
+        <!-- Supabase Initialization -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        const supabaseUrl = 'https://wukzubjnsoulvjeotfzy.supabase.co';
-        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind1a3p1Ympuc291bHZqZW90Znp5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY0NDgzNzYsImV4cCI6MjA4MjAyNDM3Nn0.vCKQSVn5i0pvK3cdbyJlIRzqWlmPt_kjQsVBxskZ3X0';
-        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+        window.supabaseUrl = 'https://wukzubjnsoulvjeotfzy.supabase.co';
+        window.supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind1a3p1Ympuc291bHZqZW90Znp5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY0NDgzNzYsImV4cCI6MjA4MjAyNDM3Nn0.vCKQSVn5i0pvK3cdbyJlIRzqWlmPt_kjQsVBxskZ3X0';
+        window.supabaseClient = window.supabase.createClient(window.supabaseUrl, window.supabaseKey);
     </script>
 </head>
 
@@ -1228,7 +1228,7 @@
             };
 
             try {
-                const { data, error } = await supabase.from('l3_results').insert([newRecord]);
+                const { data, error } = await window.supabaseClient.from('l3_results').insert([newRecord]);
                 if (error) {
                     console.error('Error saving to Supabase:', error);
                     alert('Error saving results. Please check your connection or contact administration.');
